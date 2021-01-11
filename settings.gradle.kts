@@ -1,4 +1,3 @@
-//Include all the existent modules in the project
 rootDir
     .walk()
     .maxDepth(1)
