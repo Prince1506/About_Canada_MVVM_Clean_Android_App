@@ -20,7 +20,7 @@ private object FlavorDimensions {
 object Default {
     const val BUILD_TYPE = BuildTypes.DEBUG
     const val BUILD_FLAVOR = ProductFlavors.DEV
-
+    const val BASE_URL = "https://dl.dropboxusercontent.com\\"
     val BUILD_VARIANT = "${BUILD_FLAVOR.capitalize()}${BUILD_TYPE.capitalize()}"
 }
 
@@ -30,9 +30,11 @@ android {
             isMinifyEnabled = false
             applicationIdSuffix = ".${BuildTypes.DEBUG}"
             isDebuggable = true
+            buildConfigField("String", "BASE_URL", "\"https://dl.dropboxusercontent.com\"")
         }
         getByName(BuildTypes.RELEASE) {
             isMinifyEnabled = true
+            buildConfigField("String", "BASE_URL", "\"https://dl.dropboxusercontent.com\"")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

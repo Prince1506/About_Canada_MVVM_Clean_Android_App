@@ -3,6 +3,7 @@ package com.mvvm_clean.about_canada.core.di
 import android.content.Context
 import com.mvvm_clean.about_canada.AboutCanadaApplication
 import com.mvvm_clean.about_canada.BuildConfig
+import com.mvvm_clean.about_canada.features.movies.MoviesRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -18,7 +19,7 @@ class ApplicationModule(private val application: AboutCanadaApplication) {
 
     @Provides @Singleton fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-                .baseUrl("https://raw.githubusercontent.com/android10/Sample-Data/master/Android-CleanArchitecture-Kotlin/")
+                .baseUrl(BuildConfig.BASE_URL)
                 .client(createClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -33,4 +34,5 @@ class ApplicationModule(private val application: AboutCanadaApplication) {
         return okHttpClientBuilder.build()
     }
 
+    @Provides @Singleton fun provideMoviesRepository(dataSource: MoviesRepository.Network): MoviesRepository = dataSource
 }
