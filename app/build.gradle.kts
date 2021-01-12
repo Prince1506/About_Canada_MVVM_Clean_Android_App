@@ -5,7 +5,7 @@ plugins {
   id(BuildPlugins.kotlinKapt)
   id(BuildPlugins.kotlinAndroidExtensions)
 
-
+  // Internal Script plugins
   id(ScriptPlugins.variants)
   id(ScriptPlugins.quality)
   id(ScriptPlugins.compilation)
@@ -61,6 +61,15 @@ dependencies {
   // Unit/Android tests dependencies
   testImplementation(TestLibraries.junit4)
   testImplementation(TestLibraries.mockk)
+  testImplementation(TestLibraries.kluent)
+  testImplementation(TestLibraries.robolectric)
+
+  // Acceptance tests dependencies
+  androidTestImplementation(TestLibraries.testRunner)
+  androidTestImplementation(TestLibraries.espressoCore)
+  androidTestImplementation(TestLibraries.testExtJunit)
+  androidTestImplementation(TestLibraries.testRules)
+  androidTestImplementation(TestLibraries.espressoIntents)
 
   // Development dependencies
   debugImplementation(DevLibraries.leakCanary)
