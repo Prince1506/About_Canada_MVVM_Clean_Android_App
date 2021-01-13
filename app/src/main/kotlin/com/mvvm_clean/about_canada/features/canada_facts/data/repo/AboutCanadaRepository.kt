@@ -1,4 +1,4 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts.data.repo
 
 import com.mvvm_clean.about_canada.core.exception.Failure
 import com.mvvm_clean.about_canada.core.exception.Failure.NetworkConnection
@@ -8,19 +8,21 @@ import com.mvvm_clean.about_canada.core.functional.Either
 import com.mvvm_clean.about_canada.core.functional.Either.Left
 import com.mvvm_clean.about_canada.core.functional.Either.Right
 import com.mvvm_clean.about_canada.core.platform.NetworkHandler
+import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
+import com.mvvm_clean.about_canada.features.canada_facts.CanadaFactsInfo
 import retrofit2.Call
 import javax.inject.Inject
 
-interface MoviesRepository {
-    fun movies(): Either<Failure, Movie>
+interface AboutCanadaRepository {
+    fun getFacts(): Either<Failure, CanadaFactsInfo>
 
     class Network
     @Inject constructor(private val networkHandler: NetworkHandler,
-                        private val service: MoviesService) : MoviesRepository {
+                        private val apiImpl: AboutCanadaApiImpl) : AboutCanadaRepository {
 
-        override fun movies(): Either<Failure, Movie> {
+        override fun getFacts(): Either<Failure, CanadaFactsInfo> {
             return when (networkHandler.isNetworkAvailable()) {
-                true -> request(service.movies(), { it.toMovie()}, MovieEntity(String.empty(), emptyList()))
+                true -> request(apiImpl.getFacts(), { it.toFacts()}, CanadaFactsEntity(String.empty(), emptyList()))
                 false -> Left(NetworkConnection)
             }
         }

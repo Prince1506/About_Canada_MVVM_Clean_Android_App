@@ -25,7 +25,7 @@ class NavigatorTest : AndroidTest() {
         verify(exactly = 1) { authenticator.userLoggedIn() }
     }
 
-    @Test fun `should forward user to movies screen`() {
+    @Test fun `should forward user to canada Facts screen`() {
         every { authenticator.userLoggedIn() } returns true
         verify(exactly = 1) { authenticator.userLoggedIn() }
     }

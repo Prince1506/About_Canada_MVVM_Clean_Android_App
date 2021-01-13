@@ -6,8 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import com.mvvm_clean.about_canada.features.login.Authenticator
-import com.mvvm_clean.about_canada.features.login.LoginActivity
-import com.mvvm_clean.about_canada.features.movies.MoviesActivity
+import com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity
 import com.mvvm_clean.about_canada.core.extension.empty
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,19 +16,16 @@ import javax.inject.Singleton
 class Navigator
 @Inject constructor(private val authenticator: Authenticator) {
 
-    private fun showLogin(context: Context) =
-            context.startActivity(LoginActivity.callingIntent(context))
 
     fun showMain(context: Context) {
         when (authenticator.userLoggedIn()) {
-            true -> showMovies(context)
-            false -> showLogin(context)
+            true -> showCanadaFacts(context)
         }
     }
 
-    private fun showMovies(context: Context) =
+    private fun showCanadaFacts(context: Context) =
             context.startActivity(
-                    MoviesActivity.callingIntent(context)
+                    CanadaFactListActivity.callingIntent(context)
             )
 
     private val VIDEO_URL_HTTP = "http://www.youtube.com/watch?v="

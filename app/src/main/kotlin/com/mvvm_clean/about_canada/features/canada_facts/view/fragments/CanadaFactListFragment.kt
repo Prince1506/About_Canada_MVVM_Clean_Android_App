@@ -1,13 +1,11 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts.view.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mvvm_clean.about_canada.core.platform.BaseFragment
 import com.mvvm_clean.about_canada.R
-import com.mvvm_clean.about_canada.features.movies.MovieFailure.ListNotAvailable
 import com.mvvm_clean.about_canada.core.exception.Failure
 import com.mvvm_clean.about_canada.core.exception.Failure.NetworkConnection
 import com.mvvm_clean.about_canada.core.exception.Failure.ServerError
@@ -17,24 +15,28 @@ import com.mvvm_clean.about_canada.core.extension.observe
 import com.mvvm_clean.about_canada.core.extension.viewModel
 import com.mvvm_clean.about_canada.core.extension.visible
 import com.mvvm_clean.about_canada.core.navigation.Navigator
-import kotlinx.android.synthetic.main.fragment_movies.*
+import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsFailure
+import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsView
+import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewModel
+import com.mvvm_clean.about_canada.features.canada_facts.view.adapters.CanadaFactListAdapter
+import kotlinx.android.synthetic.main.fragment_canada_facts.*
 import javax.inject.Inject
 
-class MoviesFragment : BaseFragment() {
+class CanadaFactListFragment : BaseFragment() {
 
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var moviesAdapter: MoviesAdapter
+    @Inject lateinit var canadaFactListAdapter: CanadaFactListAdapter
 
-    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var mCanadaFactsViewModel : CanadaFactsViewModel
 
-    override fun layoutId() = R.layout.fragment_movies
+    override fun layoutId() = R.layout.fragment_canada_facts
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
-        moviesViewModel = viewModel(viewModelFactory) {
-            observe(movies, ::renderMoviesList)
+        mCanadaFactsViewModel = viewModel(viewModelFactory) {
+            observe(canadaFacts, ::renderCanadaFactsList)
             failure(failure, ::handleFailure)
         }
     }
@@ -42,27 +44,27 @@ class MoviesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-        loadMoviesList()
+        loadCanadaFactsList()
     }
 
 
     private fun initializeView() {
-        movieList.layoutManager = LinearLayoutManager(
+        canadaFactList.layoutManager = LinearLayoutManager(
                 activity,
                 LinearLayoutManager.VERTICAL, false)
 
-        movieList.adapter = moviesAdapter
+        canadaFactList.adapter = canadaFactListAdapter
     }
 
-    private fun loadMoviesList() {
+    private fun loadCanadaFactsList() {
         emptyView.invisible()
-        movieList.visible()
+        canadaFactList.visible()
         showProgress()
-        moviesViewModel.loadMovies()
+        mCanadaFactsViewModel.loadCanadaFacts()
     }
 
-    private fun renderMoviesList(movies: MovieView?) {
-        moviesAdapter.collection = movies?.poster!!
+    private fun renderCanadaFactsList(canadaFactsView: CanadaFactsView?) {
+        canadaFactListAdapter.collection = canadaFactsView?.factRowEntity!!
         hideProgress()
     }
 
@@ -70,14 +72,14 @@ class MoviesFragment : BaseFragment() {
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
-            is ListNotAvailable -> renderFailure(R.string.failure_movies_list_unavailable)
+            is CanadaFactsFailure.ListNotAvailable -> renderFailure(R.string.failure_canada_fact_list_unavailable)
         }
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        movieList.invisible()
+        canadaFactList.invisible()
         emptyView.visible()
         hideProgress()
-        notifyWithAction(message, R.string.action_refresh, ::loadMoviesList)
+        notifyWithAction(message, R.string.action_refresh, ::loadCanadaFactsList)
     }
 }

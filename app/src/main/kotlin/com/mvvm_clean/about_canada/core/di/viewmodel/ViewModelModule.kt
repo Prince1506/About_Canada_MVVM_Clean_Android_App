@@ -2,7 +2,7 @@ package com.mvvm_clean.about_canada.core.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mvvm_clean.about_canada.features.movies.MoviesViewModel
+import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -14,7 +14,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MoviesViewModel::class)
-    abstract fun bindsMoviesViewModel(moviesViewModel: MoviesViewModel): ViewModel
+    @ViewModelKey(CanadaFactsViewModel::class)
+    abstract fun bindsCanadaFactsViewModel(canadaFactsViewModel: CanadaFactsViewModel): ViewModel
 
 }

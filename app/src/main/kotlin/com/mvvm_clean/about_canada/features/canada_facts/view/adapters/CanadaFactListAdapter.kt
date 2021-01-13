@@ -1,4 +1,4 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts.view.adapters
 
 import android.view.View
 import android.view.ViewGroup
@@ -6,22 +6,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mvvm_clean.about_canada.R
 import com.mvvm_clean.about_canada.core.extension.inflate
 import com.mvvm_clean.about_canada.core.extension.loadFromUrl
-import kotlinx.android.synthetic.main.about_canada_item.view.*
+import com.mvvm_clean.about_canada.features.canada_facts.view.FactRowViewModel
+import kotlinx.android.synthetic.main.canada_fact_list_items.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class MoviesAdapter
-@Inject constructor() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class CanadaFactListAdapter
+@Inject constructor() : RecyclerView.Adapter<CanadaFactListAdapter.ViewHolder>() {
 
-    internal var collection: List<Row> by Delegates.observable(emptyList()) { _, _, _ ->
+    internal var collection: List<FactRowViewModel> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    /* Uncomment when implementing click listener
-      internal var clickListener: (MovieView, Navigator.Extras) -> Unit = { _, _ -> }
-  */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(parent.inflate(R.layout.about_canada_item))
+            ViewHolder(parent.inflate(R.layout.canada_fact_list_items))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
             viewHolder.bind(collection[position])
@@ -29,9 +27,9 @@ class MoviesAdapter
     override fun getItemCount() = collection.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movieView: Row) {
+        fun bind(factRowViewModel: FactRowViewModel) {
 
-            if (movieView.isEmpty()){
+            if (factRowViewModel.isEmpty()){
                 itemView.visibility = View.GONE
                 itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
             }else{
@@ -39,13 +37,11 @@ class MoviesAdapter
                 itemView.setLayoutParams(RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             }
 
-            var imageUrl = movieView.imageHrefNotNull
+            var imageUrl = factRowViewModel.imageHrefNotNull
             imageUrl = imageUrl.replace("http", "https")
             itemView.iv_list_item_logo.loadFromUrl(imageUrl)
-
-            itemView.tv_list_item_description.text = movieView.descriptionNotNull
-
-            itemView.tv_list_item_heading.text = movieView.titleNotNull
+            itemView.tv_list_item_description.text = factRowViewModel.descriptionNotNull
+            itemView.tv_list_item_heading.text = factRowViewModel.titleNotNull
         }
     }
 }

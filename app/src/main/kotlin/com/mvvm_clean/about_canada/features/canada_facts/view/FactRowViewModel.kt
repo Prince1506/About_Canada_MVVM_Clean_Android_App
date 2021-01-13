@@ -1,15 +1,13 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts.view
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Row(
-        val title: String,
-        val description: String,
-        val imageHref: String
+data class FactRowViewModel(
+        val title: String? = null,
+        val description: String? = null,
+        val imageHref: String? = null
 ) : Parcelable {
 
     val titleNotNull: String

@@ -1,9 +1,8 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts.data
 
 import com.mvvm_clean.about_canada.core.exception.Failure.FeatureFailure
 
-class MovieFailure {
+class CanadaFactsFailure {
     class ListNotAvailable: FeatureFailure()
-    class NonExistentMovie: FeatureFailure()
 }
 

@@ -27,13 +27,8 @@
         </activity>
 
         <activity
-            android:name="com.mvvm_clean.about_canada.features.login.LoginActivity"
-            android:label="@string/login_screen_title">
-        </activity>
-
-        <activity
-            android:name="com.mvvm_clean.about_canada.features.movies.MoviesActivity"
-            android:label="@string/movies_screen_title">
+            android:name="com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity"
+            android:label="@string/canada_fact_screen_title">
         </activity>
 
     </application>
