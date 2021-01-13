@@ -2,10 +2,14 @@
 <resources>
     <!--Base colors-->
     <color name="colorPrimary">#000000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#fff</color>
     <color name="colorSecondary">#7f1a18</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorTextSecondary">#7f1a18</color>
 
+    <color name="transparent">#00000000</color>
+    <color name="semi_transparent">#1A000000</color>
     <color name="translucentBackground">#ED000000</color>
+    <color name="list_item_heading_color">#3A4565</color>
+    <color name="black">#000</color>
 </resources>

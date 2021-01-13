@@ -3,6 +3,7 @@ package com.mvvm_clean.about_canada.features.movies
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mvvm_clean.about_canada.core.platform.BaseFragment
 import com.mvvm_clean.about_canada.R
@@ -16,8 +17,7 @@ import com.mvvm_clean.about_canada.core.extension.observe
 import com.mvvm_clean.about_canada.core.extension.viewModel
 import com.mvvm_clean.about_canada.core.extension.visible
 import com.mvvm_clean.about_canada.core.navigation.Navigator
-import kotlinx.android.synthetic.main.fragment_movies.emptyView
-import kotlinx.android.synthetic.main.fragment_movies.movieList
+import kotlinx.android.synthetic.main.fragment_movies.*
 import javax.inject.Inject
 
 class MoviesFragment : BaseFragment() {
@@ -47,7 +47,10 @@ class MoviesFragment : BaseFragment() {
 
 
     private fun initializeView() {
-        movieList.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        movieList.layoutManager = LinearLayoutManager(
+                activity,
+                LinearLayoutManager.VERTICAL, false)
+
         movieList.adapter = moviesAdapter
     }
 
