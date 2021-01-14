@@ -1,11 +1,10 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.cana
 
 import com.mvvm_clean.about_canada.AndroidTest
 import com.mvvm_clean.about_canada.core.functional.Either.Right
 import com.mvvm_clean.about_canada.features.canada_facts.data.RowEntity
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.GetCanadaFactsInfo
-import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsView
 import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewModel
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -16,39 +15,53 @@ import org.junit.Test
 
 class CanadaFactsViewModelTest : AndroidTest() {
 
-    private lateinit var moviesViewModel: CanadaFactsViewModel
+    private lateinit var canadaFactsViewModel: CanadaFactsViewModel
+    private lateinit var canadaFactList: CanadaFactsInfo
+    private val TITLE_LBL = "title"
+    private val DESCRIPTION_LBL = "description"
+    private val HREF_LBL = "href"
 
     @MockK
-    private lateinit var getMovies: GetCanadaFactsInfo
+    private lateinit var getCanadaFacts: GetCanadaFactsInfo
 
     @Before
     fun setUp() {
-        moviesViewModel = CanadaFactsViewModel(getMovies)
+        canadaFactsViewModel = CanadaFactsViewModel(getCanadaFacts)
+
+        canadaFactList = CanadaFactsInfo(
+            TITLE_LBL,
+            listOf(
+                RowEntity(
+                    TITLE_LBL,
+                    DESCRIPTION_LBL,
+                    HREF_LBL
+                )
+            )
+        )
     }
 
 
-    @Test fun `loading movies should update live data`() {
-        val candaFactList =
-            CanadaFactsInfo(
-                "title",
-                listOf(
-                    RowEntity(
-                        "title",
-                        "description",
-                        "href"
-                    )
-                )
-            )
+    /**
+     * Whenever there is a change inside API response live data should get updated.
+     */
+    @Test fun `loading facts should update live data`() {
 
-        coEvery { getMovies.run(any()) } returns Right(candaFactList)
+        // Assert
+        coEvery { getCanadaFacts.run(any()) } returns Right(canadaFactList)
 
-        moviesViewModel.canadaFacts.observeForever {
-            it!!.factRowEntity.size shouldEqualTo 1
-            it!!.factRowEntity[0].description shouldEqualTo "description"
-            it!!.factRowEntity[0].title shouldEqualTo "title"
-            it!!.factRowEntity[0].imageHref shouldEqualTo "href"
+        // Act
+        runBlocking { canadaFactsViewModel.loadCanadaFacts() }
+
+        // Verify
+        canadaFactsViewModel.canadaFacts.observeForever {
+            it.let {
+                it.factRowEntity.size shouldEqualTo 1
+                it.factRowEntity[0].description shouldEqualTo DESCRIPTION_LBL
+                it.factRowEntity[0].title shouldEqualTo TITLE_LBL
+                it.factRowEntity[0].imageHref shouldEqualTo HREF_LBL
+            }
+
         }
 
-        runBlocking { moviesViewModel.loadCanadaFacts() }
     }
 }

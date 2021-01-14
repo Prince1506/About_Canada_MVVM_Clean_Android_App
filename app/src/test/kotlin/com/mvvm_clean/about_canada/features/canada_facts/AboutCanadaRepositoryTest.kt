@@ -1,4 +1,4 @@
-package com.mvvm_clean.about_canada.features.movies
+package com.mvvm_clean.about_canada.features.canada_facts
 
 import com.mvvm_clean.about_canada.UnitTest
 import com.mvvm_clean.about_canada.core.exception.Failure.NetworkConnection
@@ -7,6 +7,7 @@ import com.mvvm_clean.about_canada.core.functional.Either
 import com.mvvm_clean.about_canada.core.functional.Either.Right
 import com.mvvm_clean.about_canada.core.platform.NetworkHandler
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
+import com.mvvm_clean.about_canada.features.canada_facts.data.RowEntity
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.AboutCanadaApiImpl
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.AboutCanadaRepository
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
@@ -25,75 +26,120 @@ class AboutCanadaRepositoryTest : UnitTest() {
 
     private lateinit var networkRepository: AboutCanadaRepository.Network
 
+    private val TITLE_LBL = "title"
+    private val DESCRIPTION_LBL = "description"
+    private val HREF_LBL = "href"
+
     @MockK private lateinit var networkHandler: NetworkHandler
     @MockK private lateinit var service: AboutCanadaApiImpl
-
-    @MockK private lateinit var moviesCall: Call<CanadaFactsEntity>
-    @MockK private lateinit var moviesResponse: Response<CanadaFactsEntity>
+    private lateinit var canadaFactsEntity: CanadaFactsEntity
+    @MockK private lateinit var canadaFactsCall: Call<CanadaFactsEntity>
+    @MockK private lateinit var canadaFactsResponse: Response<CanadaFactsEntity>
 
     @Before fun setUp() {
         networkRepository = AboutCanadaRepository.Network(networkHandler, service)
+        canadaFactsEntity = CanadaFactsEntity(
+            TITLE_LBL,
+            listOf(
+                RowEntity(
+                    TITLE_LBL,
+                    DESCRIPTION_LBL,
+                    HREF_LBL
+                )
+            )
+        )
+
     }
 
+    /**
+     * If API succeeded and we get response as null. Then it should return empty object
+     */
     @Test fun `should return empty POJO by default`() {
+        // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesResponse.body() } returns null
-        every { moviesResponse.isSuccessful } returns true
-        every { moviesCall.execute() } returns moviesResponse
-        every { service.getFacts() } returns moviesCall
+        every { canadaFactsResponse.body() } returns null
+        every { canadaFactsResponse.isSuccessful } returns true
+        every { canadaFactsCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsCall
 
-        val movies = networkRepository.getFacts()
+        // Act
+        val canadaFacts= networkRepository.getFacts()
 
-        movies shouldEqual Right(CanadaFactsInfo.empty)
+        //Verify
+        canadaFacts shouldEqual Right(CanadaFactsInfo.empty)
         verify(exactly = 1) { service.getFacts() }
     }
 
-    @Test fun `should get movie list from service`() {
+    /**
+     * Case when API succeeded and we get proper response from API then same should be returned by our method too.
+     */
+    @Test fun `should get canada facts list from service`() {
+        // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesResponse.body() } returns CanadaFactsEntity("", emptyList())
-        every { moviesResponse.isSuccessful } returns true
-        every { moviesCall.execute() } returns moviesResponse
-        every { service.getFacts() } returns moviesCall
+        every { canadaFactsResponse.body() } returns canadaFactsEntity
+        every { canadaFactsResponse.isSuccessful } returns true
+        every { canadaFactsCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsCall
 
-        val movies = networkRepository.getFacts()
+        // Act
+        val canadaFacts = networkRepository.getFacts()
 
-        movies shouldEqual Right(CanadaFactsInfo.empty)
+        // Verify
+        canadaFacts shouldEqual Right(canadaFactsEntity.toFacts())
         verify(exactly = 1) { service.getFacts() }
     }
 
-    @Test fun `movies service should return network failure when no connection`() {
+    /**
+     * Check if API fails due to no network app should show no internet message
+     */
+    @Test fun `canada facts service should return network failure when no connection`() {
+        // Assert
         every { networkHandler.isNetworkAvailable() } returns false
 
-        val movies = networkRepository.getFacts()
+        // Act
+        val canadaFacts = networkRepository.getFacts()
 
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf NetworkConnection::class.java }, {})
+        // Verify
+        canadaFacts shouldBeInstanceOf Either::class.java
+        canadaFacts.isLeft shouldEqual true
+        canadaFacts.fold({ failure -> failure shouldBeInstanceOf NetworkConnection::class.java }, {})
         verify { service wasNot Called }
     }
 
-    @Test fun `movies service should return server error if no successful response`() {
+    /**
+     * Check if API fails due to server error app should should show server error popup
+     */
+    @Test fun `canada facts service should return server error if no successful response`() {
+        // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesResponse.isSuccessful } returns false
-        every { moviesCall.execute() } returns moviesResponse
-        every { service.getFacts() } returns moviesCall
+        every { canadaFactsResponse.isSuccessful } returns false
+        every { canadaFactsCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsCall
 
-        val movies = networkRepository.getFacts()
+        // Act
+        val canadaFacts = networkRepository.getFacts()
 
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        // Verify
+        canadaFacts shouldBeInstanceOf Either::class.java
+        canadaFacts.isLeft shouldEqual true
+        canadaFacts.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
-    @Test fun `movies request should catch exceptions`() {
+    /**
+     * Check if API fails due to any unhandled exception app should not get crash
+     */
+    @Test fun `fact request should catch exceptions`() {
+        // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesCall.execute() } returns moviesResponse
-        every { service.getFacts() } returns moviesCall
+        every { canadaFactsCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsCall
 
-        val movies = networkRepository.getFacts()
+        // Act
+        val canadaFacts = networkRepository.getFacts()
 
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        // Verify
+        canadaFacts shouldBeInstanceOf Either::class.java
+        canadaFacts.isLeft shouldEqual true
+        canadaFacts.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 }
