@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.about_canada.core.interactor.UseCase.None
 import com.mvvm_clean.about_canada.core.platform.BaseViewModel
-import com.mvvm_clean.about_canada.features.canada_facts.CanadaFactsInfo
-import com.mvvm_clean.about_canada.features.canada_facts.GetCanadaFactsInfo
+import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.about_canada.features.canada_facts.data.repo.GetCanadaFactsInfo
 import javax.inject.Inject
 
 class CanadaFactsViewModel
@@ -17,7 +17,7 @@ class CanadaFactsViewModel
     fun loadCanadaFacts() = getCanadaFactsInfo(None()) { it.fold(::handleFailure, ::handleFactList) }
 
     private fun handleFactList(canadaFactsInfo: CanadaFactsInfo) {
-        val rowViewModel = canadaFactsInfo.rowEntities.flatMap {
+        val rowViewModel = canadaFactsInfo.rows.flatMap {
 
             listOf(
                     FactRowViewModel(

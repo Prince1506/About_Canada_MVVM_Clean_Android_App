@@ -1,6 +1,7 @@
 package com.mvvm_clean.about_canada.core.navigation
 
 import com.mvvm_clean.about_canada.AndroidTest
+import com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity
 import com.mvvm_clean.about_canada.features.login.Authenticator
 import com.mvvm_clean.about_canada.shouldNavigateTo
 import io.mockk.every
@@ -19,14 +20,11 @@ class NavigatorTest : AndroidTest() {
         navigator = Navigator(authenticator)
     }
 
-    @Test fun `should forward user to login screen`() {
-        every { authenticator.userLoggedIn() } returns false
-
-        verify(exactly = 1) { authenticator.userLoggedIn() }
-    }
-
-    @Test fun `should forward user to canada Facts screen`() {
+    @Test fun `should forward user to canada Fact screen`() {
         every { authenticator.userLoggedIn() } returns true
+
+        navigator.showScreens(context())
         verify(exactly = 1) { authenticator.userLoggedIn() }
+        AboutCanadaActivity::class shouldNavigateTo CanadaFactListActivity::class
     }
 }

@@ -9,7 +9,6 @@ import com.mvvm_clean.about_canada.core.functional.Either.Left
 import com.mvvm_clean.about_canada.core.functional.Either.Right
 import com.mvvm_clean.about_canada.core.platform.NetworkHandler
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
-import com.mvvm_clean.about_canada.features.canada_facts.CanadaFactsInfo
 import retrofit2.Call
 import javax.inject.Inject
 
