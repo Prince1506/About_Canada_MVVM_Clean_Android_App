@@ -11,20 +11,24 @@ import com.mvvm_clean.about_canada.core.exception.Failure.NetworkConnection
 import com.mvvm_clean.about_canada.core.exception.Failure.ServerError
 import com.mvvm_clean.about_canada.core.extension.*
 import com.mvvm_clean.about_canada.core.navigation.Navigator
+import com.mvvm_clean.about_canada.core.platform.BaseActivity
 import com.mvvm_clean.about_canada.core.platform.BaseFragment
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsFailure
 import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsView
 import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewModel
+import com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity
 import com.mvvm_clean.about_canada.features.canada_facts.view.adapters.CanadaFactListAdapter
 import kotlinx.android.synthetic.main.fragment_canada_facts.*
 import javax.inject.Inject
 
 class CanadaFactListFragment : BaseFragment() {
 
-    @Inject lateinit var navigator: Navigator
-    @Inject lateinit var canadaFactListAdapter: CanadaFactListAdapter
+    @Inject
+    lateinit var navigator: Navigator
+    @Inject
+    lateinit var canadaFactListAdapter: CanadaFactListAdapter
 
-    private lateinit var mCanadaFactsViewModel : CanadaFactsViewModel
+    private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
 
     override fun layoutId() = R.layout.fragment_canada_facts
 
@@ -68,7 +72,7 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun renderCanadaFactsList(canadaFactsView: CanadaFactsView?) {
-        activity?.setTitle(canadaFactsView?.title)
+        canadaFactsView?.title?.let { (activity as CanadaFactListActivity)?.setActionTitle(it) }
         canadaFactListAdapter.collection = canadaFactsView?.factRowEntity!!
         hideProgress()
     }

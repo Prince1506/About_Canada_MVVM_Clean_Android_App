@@ -26,8 +26,8 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    fun setTitle(title:String ){
-        toolbar.title = title
+    fun setActionTitle(title:String ){
+        toolbar_title.text = title
     }
     private fun addFragment(savedInstanceState: Bundle?) =
             savedInstanceState ?: supportFragmentManager.inTransaction { add(R.id.fragmentContainer, fragment()) }

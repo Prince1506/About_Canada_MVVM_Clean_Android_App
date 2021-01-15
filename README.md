@@ -19,3 +19,11 @@ So if you want to test code coverage please check it separately. (One file at a 
 
 3. The Application uses navigator architecture in which we had created one laucnher activity and all the new screens
 as per client will be navigated from this activity using navigator.
+
+4. Images are coming of improper size from server. To display them completely I am making them center fit.
+Henceforth if image is coming of proper width it'll be shown as rectangle but if it's not coming of proper width then
+it will be shown as it's.
+
+The second option was to force it to be shown as rectangle doing so will need to crop the images maintaining
+the aspect ratio henceforth image detail will be lost. Hence I had not used this option.
+

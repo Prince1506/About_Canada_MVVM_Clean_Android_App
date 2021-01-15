@@ -38,7 +38,7 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
 fun ImageView.loadFromUrl(url: String) {
 
     val options: RequestOptions = RequestOptions()
-            .centerCrop()
+            .fitCenter()
             .placeholder(R.drawable.list_item_place_holder)
             .error(R.drawable.list_item_place_holder)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
