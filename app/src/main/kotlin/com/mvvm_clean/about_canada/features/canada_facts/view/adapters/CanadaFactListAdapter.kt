@@ -40,7 +40,8 @@ class CanadaFactListAdapter
             var imageUrl = factRowViewModel.imageHrefNotNull
             imageUrl = imageUrl.replace("http", "https")
             itemView.iv_list_item_logo.loadFromUrl(imageUrl)
-            itemView.tv_list_item_description.text = factRowViewModel.descriptionNotNull         itemView.tv_list_item_heading.text = factRowViewModel.titleNotNull
+            itemView.tv_list_item_description.text = factRowViewModel.descriptionNotNull
+            itemView.tv_list_item_heading.text = factRowViewModel.titleNotNull
         }
     }
 }
