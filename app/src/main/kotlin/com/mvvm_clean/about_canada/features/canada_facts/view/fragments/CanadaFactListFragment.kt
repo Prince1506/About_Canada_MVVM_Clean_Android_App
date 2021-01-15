@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mvvm_clean.about_canada.core.platform.BaseFragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.mvvm_clean.about_canada.R
 import com.mvvm_clean.about_canada.core.exception.Failure
 import com.mvvm_clean.about_canada.core.exception.Failure.NetworkConnection
 import com.mvvm_clean.about_canada.core.exception.Failure.ServerError
-import com.mvvm_clean.about_canada.core.extension.failure
-import com.mvvm_clean.about_canada.core.extension.invisible
-import com.mvvm_clean.about_canada.core.extension.observe
-import com.mvvm_clean.about_canada.core.extension.viewModel
-import com.mvvm_clean.about_canada.core.extension.visible
+import com.mvvm_clean.about_canada.core.extension.*
 import com.mvvm_clean.about_canada.core.navigation.Navigator
+import com.mvvm_clean.about_canada.core.platform.BaseFragment
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsFailure
 import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsView
 import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewModel
@@ -50,10 +47,17 @@ class CanadaFactListFragment : BaseFragment() {
 
     private fun initializeView() {
         canadaFactList.layoutManager = LinearLayoutManager(
-                activity,
-                LinearLayoutManager.VERTICAL, false)
+            activity,
+            LinearLayoutManager.VERTICAL, false
+        )
 
         canadaFactList.adapter = canadaFactListAdapter
+
+        srl_canada_fact_pullToRefresh.setOnRefreshListener {
+            loadCanadaFactsList()
+            srl_canada_fact_pullToRefresh.isRefreshing = false;
+        }
+
     }
 
     private fun loadCanadaFactsList() {
@@ -64,6 +68,7 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun renderCanadaFactsList(canadaFactsView: CanadaFactsView?) {
+        activity?.setTitle(canadaFactsView?.title)
         canadaFactListAdapter.collection = canadaFactsView?.factRowEntity!!
         hideProgress()
     }

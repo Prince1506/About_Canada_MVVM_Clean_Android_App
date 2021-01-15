@@ -5,13 +5,19 @@
     android:background="@color/colorAccent"
     >
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/canadaFactList"
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+      android:id="@+id/srl_canada_fact_pullToRefresh"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_margin="3dp"
-      android:background="@color/colorAccent"
-      />
+      android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/canadaFactList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:background="@color/colorAccent" />
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
   <ImageView
       android:id="@+id/emptyView"

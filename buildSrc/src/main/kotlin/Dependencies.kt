@@ -6,7 +6,7 @@ object Kotlin {
 object AndroidSdk {
     const val min = 21
     const val compile = 29
-    const val target = compile
+    const val target = 25
 }
 
 object AndroidClient {
@@ -56,6 +56,7 @@ object Libraries {
         const val dagger = "2.11"
         const val javaxAnnotations = "1.0"
         const val javaxInject = "1"
+        const val swipeRefresh = "1.0.0"
     }
 
     const val kotlinStdLib             = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Kotlin.standardLibrary}"
@@ -81,6 +82,7 @@ object Libraries {
     const val daggerCompiler   = "com.google.dagger:dagger-compiler:${Versions.dagger}"
     const val javaxAnnotation  = "javax.annotation:jsr250-api:${Versions.javaxAnnotations}"
     const val javaxInject      = "javax.inject:javax.inject:${Versions.javaxInject}"
+    const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}"
 }
 
 object TestLibraries {

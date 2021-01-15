@@ -11,4 +11,5 @@
     <string name="content_description_empty">No content description.</string>
     <string name="right_angular_arrow"><![CDATA[>]]></string>
     <string name="dash">-</string>
+    <string name="fact_list_title">Canada Fact List</string>
 </resources>

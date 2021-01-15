@@ -57,6 +57,7 @@ dependencies {
   implementation(Libraries.dagger)
   implementation(Libraries.retrofit)
   implementation(Libraries.okHttpLoggingInterceptor)
+  implementation(Libraries.swipeRefresh)
 
   // Unit/Android tests dependencies
   testImplementation(TestLibraries.junit4)

@@ -16,3 +16,6 @@ you can check it here
 https://github.com/robolectric/robolectric/issues/3023
 
 So if you want to test code coverage please check it separately. (One file at a time)
+
+3. The Application uses navigator architecture in which we had created one laucnher activity and all the new screens
+as per client will be navigated from this activity using navigator.
