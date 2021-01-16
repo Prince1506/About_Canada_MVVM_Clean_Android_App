@@ -1,8 +1,10 @@
 package com.mvvm_clean.about_canada.features.canada_facts.data
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
+@Keep
 @Parcelize
 data class RowEntity(
         val title: String,
