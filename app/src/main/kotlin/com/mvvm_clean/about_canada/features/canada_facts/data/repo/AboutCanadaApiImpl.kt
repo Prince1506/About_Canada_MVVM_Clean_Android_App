@@ -4,6 +4,9 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * All apis would be handled here
+ */
 @Singleton
 class AboutCanadaApiImpl
 @Inject constructor(retrofit: Retrofit) : AboutCanadaApi {

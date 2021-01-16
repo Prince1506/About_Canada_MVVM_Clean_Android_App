@@ -12,6 +12,9 @@ import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
 import retrofit2.Call
 import javax.inject.Inject
 
+/**
+ * Api flow is controlled here
+ */
 interface AboutCanadaRepository {
     fun getFacts(): Either<Failure, CanadaFactsInfo>
 

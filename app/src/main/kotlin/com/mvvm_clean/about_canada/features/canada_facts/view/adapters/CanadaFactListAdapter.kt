@@ -29,19 +29,33 @@ class CanadaFactListAdapter
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(factRowViewModel: FactRowViewModel) {
 
-            if (factRowViewModel.isEmpty()){
-                itemView.visibility = View.GONE
-                itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
-            }else{
-                itemView.visibility = View.VISIBLE
-                itemView.setLayoutParams(RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-            }
+            hideEmptyItems(factRowViewModel)
 
             var imageUrl = factRowViewModel.imageHrefNotNull
             imageUrl = imageUrl.replace("http", "https")
+            setDataToItem(imageUrl, factRowViewModel)
+        }
+
+        private fun setDataToItem(
+            imageUrl: String,
+            factRowViewModel: FactRowViewModel
+        ) {
             itemView.iv_list_item_logo.loadFromUrl(imageUrl)
             itemView.tv_list_item_description.text = factRowViewModel.descriptionNotNull
             itemView.tv_list_item_heading.text = factRowViewModel.titleNotNull
+        }
+
+        private fun hideEmptyItems(factRowViewModel: FactRowViewModel) {
+            if (factRowViewModel.isEmpty()) {
+                itemView.visibility = View.GONE
+                itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            } else {
+                itemView.visibility = View.VISIBLE
+                itemView.layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
         }
     }
 }

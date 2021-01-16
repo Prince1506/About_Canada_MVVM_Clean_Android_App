@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-  //Compile time dependencies
+    //Compile time dependencies
   kapt(Libraries.lifecycleCompiler)
   kapt(Libraries.daggerCompiler)
   compileOnly(Libraries.javaxAnnotation)

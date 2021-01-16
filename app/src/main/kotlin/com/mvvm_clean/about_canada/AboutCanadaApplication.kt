@@ -14,8 +14,4 @@ class AboutCanadaApplication : Application() {
                 .build()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
 }

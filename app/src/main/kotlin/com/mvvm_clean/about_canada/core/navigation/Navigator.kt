@@ -12,6 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+/**
+ * This is central location to control screen flows(according to business) for complete app.
+ */
 @Singleton
 class Navigator
 @Inject constructor(private val authenticator: Authenticator) {
