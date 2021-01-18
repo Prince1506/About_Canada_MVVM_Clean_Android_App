@@ -116,5 +116,5 @@ Additional Guidelines Done
 7.Include at least two UI unit tests; one that asserts the state of the screen when set up with all data present, and one that asserts the state of the screen when in an error state.
 DONE
 
-8.Handle screen rotation efficiently. DONE I had decide separate UI for landscape to use more space available during landscape mode
+8.Handle screen rotation efficiently. DONE I had designed separate UI for landscape to use more space available during landscape mode
 

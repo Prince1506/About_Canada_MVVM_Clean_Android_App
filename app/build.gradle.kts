@@ -14,6 +14,15 @@ plugins {
 android {
   compileSdkVersion(AndroidSdk.compile)
 
+  signingConfigs {
+
+    create(AndroidClient.release) {
+      keyAlias = AndroidClient.release
+      keyPassword = AndroidClient.keyPassword
+      storeFile = file(AndroidClient.keystore_path)
+      storePassword = AndroidClient.keyPassword
+    }
+  }
   defaultConfig {
     minSdkVersion(AndroidSdk.min)
     targetSdkVersion(AndroidSdk.target)
