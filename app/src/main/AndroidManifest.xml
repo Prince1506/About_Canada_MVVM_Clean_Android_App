@@ -19,6 +19,7 @@
         <activity
             android:name="com.mvvm_clean.about_canada.core.navigation.AboutCanadaActivity"
             android:noHistory="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

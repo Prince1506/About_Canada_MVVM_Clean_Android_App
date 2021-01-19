@@ -4,8 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mvvm_clean.about_canada.R
-import com.mvvm_clean.about_canada.core.extension.inflate
-import com.mvvm_clean.about_canada.core.extension.loadFromUrl
+import com.mvvm_clean.about_canada.core.extension.*
 import com.mvvm_clean.about_canada.features.canada_facts.view.FactRowViewModel
 import kotlinx.android.synthetic.main.canada_fact_list_items.view.*
 import javax.inject.Inject
@@ -32,8 +31,8 @@ class CanadaFactListAdapter
             hideEmptyItems(factRowViewModel)
 
             var imageUrl = factRowViewModel.imageHrefNotNull
-            imageUrl = imageUrl.replace("http", "https")
-            setDataToItem(imageUrl, factRowViewModel)
+            imageUrl = imageUrl?.replace("http", "https")
+            imageUrl?.let { setDataToItem(it, factRowViewModel) }
         }
 
         private fun setDataToItem(
@@ -47,15 +46,16 @@ class CanadaFactListAdapter
 
         private fun hideEmptyItems(factRowViewModel: FactRowViewModel) {
             if (factRowViewModel.isEmpty()) {
-                itemView.visibility = View.GONE
-                itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+                itemView.gone()
+                itemView.setWithAndHeight(0, 0)
             } else {
-                itemView.visibility = View.VISIBLE
-                itemView.layoutParams = RecyclerView.LayoutParams(
+                itemView.visible()
+                itemView.setWithAndHeight(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
+
             }
         }
     }
 }
+

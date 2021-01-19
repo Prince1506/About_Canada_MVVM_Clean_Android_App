@@ -1,6 +1,7 @@
 package com.mvvm_clean.about_canada.features.canada_facts.view.fragments
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,6 @@ import com.mvvm_clean.about_canada.features.canada_facts.view.CanadaFactsViewMod
 import com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity
 import com.mvvm_clean.about_canada.features.canada_facts.view.adapters.CanadaFactListAdapter
 import kotlinx.android.synthetic.main.fragment_canada_facts.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class CanadaFactListFragment : BaseFragment() {
@@ -30,6 +30,8 @@ class CanadaFactListFragment : BaseFragment() {
     private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
 
     override fun layoutId() = R.layout.fragment_canada_facts
+    private val LIST_STATE = "listState"
+    private var mListState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,8 @@ class CanadaFactListFragment : BaseFragment() {
             observe(canadaFacts, ::renderCanadaFactsList)
             failure(failure, ::handleFailure)
         }
+        // retain this fragment when activity is re-initialized
+        setRetainInstance(true);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +52,21 @@ class CanadaFactListFragment : BaseFragment() {
         loadCanadaFactsList()
     }
 
+//    // Write list state to bundle
+//    override fun onSaveInstanceState(state: Bundle) {
+//        super.onSaveInstanceState(state)
+//        mListState = getListView().onSaveInstanceState()
+//        state.putParcelable(LIST_STATE, mListState)
+//    }
+//
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        mListState = state.getParcelable<Parcelable>(LIST_STATE)
+//    }
+//
 
+
+//  X
     private fun initializeView() {
         canadaFactList.layoutManager = LinearLayoutManager(
             activity,
@@ -66,7 +84,7 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun loadCanadaFactsList() {
-        emptyView.invisible()
+        emptyView.gone()
         mCanadaFactsViewModel.loadCanadaFacts()
     }
 

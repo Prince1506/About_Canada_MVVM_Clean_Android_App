@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -28,26 +29,30 @@ fun View.visible() {
     this.visibility = View.VISIBLE
 }
 
-fun View.invisible() {
+fun View.setWithAndHeight(matchParent: Int, wrapContent: Int) {
+    this.layoutParams = RecyclerView.LayoutParams(matchParent, wrapContent)
+}
+
+fun View.gone() {
     this.visibility = View.GONE
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
-        LayoutInflater.from(context).inflate(layoutRes, this, false)
+    LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 fun ImageView.loadFromUrl(url: String) {
 
     val options: RequestOptions = RequestOptions()
-            .fitCenter()
-            .placeholder(R.drawable.list_item_place_holder)
-            .error(R.drawable.list_item_place_holder)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .priority(Priority.HIGH)
+        .fitCenter()
+        .placeholder(R.drawable.list_item_place_holder)
+        .error(R.drawable.list_item_place_holder)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.HIGH)
 
     Glide.with(this.context.applicationContext)
-            .load(url)
-            .apply(options)
-            .into(this)
+        .load(url)
+        .apply(options)
+        .into(this)
 
 }
 
@@ -56,7 +61,8 @@ fun ImageView.loadUrlAndPostponeEnterTransition(url: String, activity: FragmentA
     Glide.with(context.applicationContext).load(url).into(target)
 }
 
-private class ImageViewBaseTarget(var imageView: ImageView?, var activity: FragmentActivity?) : BaseTarget<Drawable>() {
+private class ImageViewBaseTarget(var imageView: ImageView?, var activity: FragmentActivity?) :
+    BaseTarget<Drawable>() {
     override fun onLoadFailed(errorDrawable: Drawable?) {
         super.onLoadFailed(errorDrawable)
         activity?.supportStartPostponedEnterTransition()
