@@ -3,6 +3,7 @@ package com.mvvm_clean.about_canada.features.canada_facts.view.fragments
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvvm_clean.about_canada.R
@@ -32,6 +33,7 @@ class CanadaFactListFragment : BaseFragment() {
     override fun layoutId() = R.layout.fragment_canada_facts
     private val LIST_STATE = "listState"
     private var mListState: Parcelable? = null
+    private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,29 +54,35 @@ class CanadaFactListFragment : BaseFragment() {
         loadCanadaFactsList()
     }
 
-//    // Write list state to bundle
-//    override fun onSaveInstanceState(state: Bundle) {
-//        super.onSaveInstanceState(state)
-//        mListState = getListView().onSaveInstanceState()
-//        state.putParcelable(LIST_STATE, mListState)
-//    }
-//
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        mListState = state.getParcelable<Parcelable>(LIST_STATE)
-//    }
-//
+    /**
+     * This is a method for Fragment.
+     * You can do the same in onCreate or onRestoreInstanceState
+     */
+    override fun onViewStateRestored(@Nullable savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            val savedRecyclerLayoutState =
+                savedInstanceState.getParcelable<Parcelable>(BUNDLE_RECYCLER_LAYOUT)
+            rv_canadaFactList.getLayoutManager()?.onRestoreInstanceState(savedRecyclerLayoutState)
+        }
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(
+            BUNDLE_RECYCLER_LAYOUT,
+            rv_canadaFactList.getLayoutManager()?.onSaveInstanceState()
+        )
+    }
 
-//  X
     private fun initializeView() {
-        canadaFactList.layoutManager = LinearLayoutManager(
+        rv_canadaFactList.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
             false
         )
 
-        canadaFactList.adapter = canadaFactListAdapter
+        rv_canadaFactList.adapter = canadaFactListAdapter
 
         srl_canada_fact_pullToRefresh.setOnRefreshListener {
             loadCanadaFactsList()
@@ -91,7 +99,7 @@ class CanadaFactListFragment : BaseFragment() {
     private fun renderCanadaFactsList(canadaFactsView: CanadaFactsView?) {
         canadaFactsView?.title?.let { (activity as CanadaFactListActivity).setActionTitle(it) }
         canadaFactListAdapter.collection = canadaFactsView?.factRowEntity!!
-        canadaFactList.visible()
+        rv_canadaFactList.visible()
         hideProgress()
     }
 
@@ -105,7 +113,7 @@ class CanadaFactListFragment : BaseFragment() {
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        canadaFactList.visibility = View.GONE
+        rv_canadaFactList.visibility = View.GONE
         (activity as CanadaFactListActivity).setActionTitle("")
         emptyView.visible()
         hideProgress()
