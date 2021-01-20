@@ -14,25 +14,28 @@ import com.mvvm_clean.about_canada.core.domain.extension.*
 import com.mvvm_clean.about_canada.core.presentation.navigation.Navigator
 import com.mvvm_clean.about_canada.core.base.BaseFragment
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsFailure
-import com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models.CanadaFactsView
-import com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models.CanadaFactsViewModel
+import com.mvvm_clean.about_canada.features.canada_facts.presentation.models.CanadaFactsModel
+import com.mvvm_clean.about_canada.features.canada_facts.presentation.models.CanadaFactsViewModel
 import com.mvvm_clean.about_canada.features.canada_facts.presentation.ui.activities.CanadaFactListActivity
 import com.mvvm_clean.about_canada.features.canada_facts.presentation.ui.adapters.CanadaFactListAdapter
 import kotlinx.android.synthetic.main.fragment_canada_facts.*
 import javax.inject.Inject
 
+// Fragment responsible to show fact list
 class CanadaFactListFragment : BaseFragment() {
+
+    private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
+    private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
 
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var canadaFactListAdapter: CanadaFactListAdapter
 
-    private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
 
+    // Override Methods
     override fun layoutId() = R.layout.fragment_canada_facts
-    private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
@@ -77,6 +80,7 @@ class CanadaFactListFragment : BaseFragment() {
         super.onDestroyView()
         rv_canadaFactList.adapter = null;
     }
+    //---
 
     private fun initializeView() {
         rv_canadaFactList.layoutManager = LinearLayoutManager(
@@ -89,19 +93,21 @@ class CanadaFactListFragment : BaseFragment() {
 
         srl_canada_fact_pullToRefresh.setOnRefreshListener {
             loadCanadaFactsList()
-            srl_canada_fact_pullToRefresh.isRefreshing = false
         }
 
     }
 
     private fun loadCanadaFactsList() {
-        emptyView.gone()
         mCanadaFactsViewModel.loadCanadaFacts()
     }
 
-    private fun renderCanadaFactsList(canadaFactsView: CanadaFactsView?) {
-        canadaFactsView?.title?.let { (activity as CanadaFactListActivity).setActionTitle(it) }
-        canadaFactListAdapter.collection = canadaFactsView?.factRowEntity!!
+    private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
+
+        canadaFactsModel?.title?.let { (activity as CanadaFactListActivity).setActionTitle(it) }
+        canadaFactListAdapter.collection = canadaFactsModel?.factRowEntity!!
+        srl_canada_fact_pullToRefresh.isRefreshing = false
+        emptyView.gone()
+        tv_fact_list_api_message.gone()
         rv_canadaFactList.visible()
         hideProgress()
     }
@@ -113,13 +119,16 @@ class CanadaFactListFragment : BaseFragment() {
             is CanadaFactsFailure.ListNotAvailable -> renderFailure(R.string.failure_canada_fact_list_unavailable)
             else -> renderFailure(R.string.failure_server_error)
         }
+        srl_canada_fact_pullToRefresh.isRefreshing = false
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        rv_canadaFactList.visibility = View.GONE
+        rv_canadaFactList.gone()
         (activity as CanadaFactListActivity).setActionTitle("")
         emptyView.visible()
+        tv_fact_list_api_message.visible()
+        tv_fact_list_api_message.text = getString(message)
         hideProgress()
-        notifyWithAction(message, ::loadCanadaFactsList)
+        notifyWithAction(message)
     }
 }

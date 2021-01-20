@@ -1,4 +1,4 @@
-package com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models
+package com.mvvm_clean.about_canada.features.canada_facts.presentation.models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,18 +8,22 @@ import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsIn
 import com.mvvm_clean.about_canada.features.canada_facts.domain.use_cases.GetCanadaFactsInfo
 import javax.inject.Inject
 
+/**
+ * View Model responsible for showing canada fact list on screen.
+ * It will interact with both data as well as UI layer
+ */
 class CanadaFactsViewModel @Inject constructor(private val getCanadaFactsInfo: GetCanadaFactsInfo) : BaseViewModel() {
 
-    private val mutableCanadaLiveData: MutableLiveData<CanadaFactsView> = MutableLiveData()
-    val canadaFacts: LiveData<CanadaFactsView> = mutableCanadaLiveData
+    private val mutableCanadaLiveData: MutableLiveData<CanadaFactsModel> = MutableLiveData()
+    val canadaFacts: LiveData<CanadaFactsModel> = mutableCanadaLiveData
 
     fun loadCanadaFacts() = getCanadaFactsInfo(None()) { it.fold(::handleFailure, ::handleFactList) }
 
     fun handleFactList(canadaFactsInfo: CanadaFactsInfo) {
         val rowViewModel = canadaFactsInfo.rows.flatMap {
-            listOf( FactRowViewModel(it.title, it.description, it.imageHref ))
+            listOf( FactRowModel(it.title, it.description, it.imageHref ))
         }
 
-        mutableCanadaLiveData.value =  CanadaFactsView(canadaFactsInfo.title, rowViewModel)
+        mutableCanadaLiveData.value =  CanadaFactsModel(canadaFactsInfo.title, rowViewModel)
     }
 }

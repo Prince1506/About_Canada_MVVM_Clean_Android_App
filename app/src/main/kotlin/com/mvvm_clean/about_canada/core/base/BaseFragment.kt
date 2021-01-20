@@ -21,20 +21,23 @@ import javax.inject.Inject
  */
 abstract class BaseFragment : Fragment() {
 
-    abstract fun layoutId(): Int
-
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as AboutCanadaApplication).appComponent
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+
+    abstract fun layoutId(): Int
+
+    // Override Methods
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
             inflater.inflate(layoutId(), container, false)
 
+    //---
+
     open fun onBackPressed() {}
 
-    internal fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
 
     internal fun showProgress() = progressStatus(View.VISIBLE)
 
@@ -43,14 +46,8 @@ abstract class BaseFragment : Fragment() {
     private fun progressStatus(viewStatus: Int) =
             with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
-    internal fun notify(@StringRes message: Int) =
-            Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
-
-    internal fun notifyWithAction(@StringRes message: Int, action: () -> Any) {
+    internal fun notifyWithAction(@StringRes message: Int) {
         val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)
-/*
-        snackBar.setAction(actionText) { _ -> action.invoke() }
-        snackBar.setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
-*/      snackBar.show()
+        snackBar.show()
     }
 }

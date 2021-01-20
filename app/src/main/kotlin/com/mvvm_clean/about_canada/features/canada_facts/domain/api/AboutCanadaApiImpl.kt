@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class AboutCanadaApiImpl
 @Inject constructor(retrofit: Retrofit) : AboutCanadaApi {
-    private val aboutCanadaApi by lazy { retrofit.create(AboutCanadaApi::class.java) }
 
+    private val aboutCanadaApi by lazy { retrofit.create(AboutCanadaApi::class.java) }
     override fun getFacts() = aboutCanadaApi.getFacts()
 }

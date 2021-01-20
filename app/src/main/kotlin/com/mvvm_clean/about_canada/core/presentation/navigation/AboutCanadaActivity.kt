@@ -20,9 +20,12 @@ class AboutCanadaActivity : AppCompatActivity() {
 
     @Inject internal lateinit var navigator: Navigator
 
+    // Override Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         navigator.showScreens(this)
     }
+    //---
+    
 }

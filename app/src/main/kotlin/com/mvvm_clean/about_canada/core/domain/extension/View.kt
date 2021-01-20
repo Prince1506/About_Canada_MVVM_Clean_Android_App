@@ -61,6 +61,9 @@ fun ImageView.loadUrlAndPostponeEnterTransition(url: String, activity: FragmentA
     Glide.with(context.applicationContext).load(url).into(target)
 }
 
+fun View.getString(stringNameId: Int) =
+    this.context.getString(stringNameId)
+
 private class ImageViewBaseTarget(var imageView: ImageView?, var activity: FragmentActivity?) :
     BaseTarget<Drawable>() {
     override fun onLoadFailed(errorDrawable: Drawable?) {
@@ -80,3 +83,5 @@ private class ImageViewBaseTarget(var imageView: ImageView?, var activity: Fragm
         activity?.supportStartPostponedEnterTransition()
     }
 }
+
+

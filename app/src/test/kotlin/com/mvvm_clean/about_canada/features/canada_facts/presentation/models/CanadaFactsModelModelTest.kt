@@ -1,4 +1,4 @@
-package com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models
+package com.mvvm_clean.about_canada.features.canada_facts.presentation.models
 
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.about_canada.AndroidTest
@@ -14,15 +14,15 @@ import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
 
-class CanadaFactsViewModelTest : AndroidTest() {
+class CanadaFactsModelModelTest : AndroidTest() {
 
     private lateinit var canadaFactsViewModel: CanadaFactsViewModel
     private lateinit var canadaFactsInfo: CanadaFactsInfo
     private val TITLE_LBL = "title"
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
-    private val mutableCanadaLiveData: MutableLiveData<CanadaFactsView> = MutableLiveData()
-    private lateinit var factRowViewModels :List<FactRowViewModel>
+    private val mutableCanadaLiveData: MutableLiveData<CanadaFactsModel> = MutableLiveData()
+    private lateinit var factRowModels :List<FactRowModel>
 
     @MockK
     private lateinit var getCanadaFacts: GetCanadaFactsInfo
@@ -42,19 +42,19 @@ class CanadaFactsViewModelTest : AndroidTest() {
             )
         )
 
-        factRowViewModels = canadaFactsInfo.rows.flatMap {
+        factRowModels = canadaFactsInfo.rows.flatMap {
 
             listOf(
-                FactRowViewModel(
+                FactRowModel(
                     it.title,
                     it.description,
                     it.imageHref
                 )
             )
         }
-        mutableCanadaLiveData.value = CanadaFactsView(
+        mutableCanadaLiveData.value = CanadaFactsModel(
             canadaFactsInfo.title,
-            factRowViewModels
+            factRowModels
         )
     }
 
@@ -94,9 +94,9 @@ class CanadaFactsViewModelTest : AndroidTest() {
        canadaFactsViewModel.handleFactList(canadaFactsInfo )
 
         // Verify
-        mutableCanadaLiveData.value  shouldEqual CanadaFactsView(
+        mutableCanadaLiveData.value  shouldEqual CanadaFactsModel(
             canadaFactsInfo.title,
-            factRowViewModels
+            factRowModels
         )
 
     }

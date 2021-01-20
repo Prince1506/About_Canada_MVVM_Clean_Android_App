@@ -5,18 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mvvm_clean.about_canada.R
 import com.mvvm_clean.about_canada.core.domain.extension.*
-import com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models.FactRowViewModel
+import com.mvvm_clean.about_canada.features.canada_facts.presentation.models.FactRowModel
 import kotlinx.android.synthetic.main.canada_fact_list_items.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
+// Adapter responsible to show item of canada fact list
 class CanadaFactListAdapter
 @Inject constructor() : RecyclerView.Adapter<CanadaFactListAdapter.ViewHolder>() {
 
-    internal var collection: List<FactRowViewModel> by Delegates.observable(emptyList()) { _, _, _ ->
+    internal var collection: List<FactRowModel> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
+    // Override Methods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(parent.inflate(R.layout.canada_fact_list_items))
 
@@ -24,28 +26,29 @@ class CanadaFactListAdapter
             viewHolder.bind(collection[position])
 
     override fun getItemCount() = collection.size
+    //---
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(factRowViewModel: FactRowViewModel) {
+        fun bind(factRowModel: FactRowModel) {
 
-            hideEmptyItems(factRowViewModel)
+            hideEmptyItems(factRowModel)
 
-            var imageUrl = factRowViewModel.imageHrefNotNull
-            imageUrl = imageUrl?.replace("http", "https")
-            imageUrl?.let { setDataToItem(it, factRowViewModel) }
+            var imageUrl = factRowModel.imageHrefNotNull
+            imageUrl = imageUrl?.replace(itemView.getString(R.string.http), itemView.getString(R.string.https))
+            imageUrl?.let { setDataToItem(it, factRowModel) }
         }
 
         private fun setDataToItem(
             imageUrl: String,
-            factRowViewModel: FactRowViewModel
+            factRowModel: FactRowModel
         ) {
             itemView.iv_list_item_logo.loadFromUrl(imageUrl)
-            itemView.tv_list_item_description.text = factRowViewModel.descriptionNotNull
-            itemView.tv_list_item_heading.text = factRowViewModel.titleNotNull
+            itemView.tv_list_item_description.text = factRowModel.descriptionNotNull
+            itemView.tv_list_item_heading.text = factRowModel.titleNotNull
         }
 
-        private fun hideEmptyItems(factRowViewModel: FactRowViewModel) {
-            if (factRowViewModel.isEmpty()) {
+        private fun hideEmptyItems(factRowModel: FactRowModel) {
+            if (factRowModel.isEmpty()) {
                 itemView.gone()
                 itemView.setWithAndHeight(0, 0)
             } else {

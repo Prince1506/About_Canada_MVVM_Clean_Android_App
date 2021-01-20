@@ -1,14 +1,15 @@
-package com.mvvm_clean.about_canada.features.canada_facts.presentation.view_models
+package com.mvvm_clean.about_canada.features.canada_facts.presentation.models
 
 import android.os.Parcelable
 import com.mvvm_clean.about_canada.core.domain.extension.isEmptyOrNull
 import kotlinx.android.parcel.Parcelize
 
+// Part of canada fact list view model to be shown on UI
 @Parcelize
-data class FactRowViewModel(
-        val title: String? = null,
-        val description: String? = null,
-        val imageHref: String? = null
+data class FactRowModel(
+    val title: String? = null,
+    val description: String? = null,
+    val imageHref: String? = null
 ) : Parcelable {
 
     val titleNotNull: String?
@@ -21,7 +22,7 @@ data class FactRowViewModel(
         get() = if (String.isEmptyOrNull(imageHref)) "-" else imageHref
 
     fun isEmpty() =
-            (title == null || title.isEmpty()) &&
-                    (description == null || description.isEmpty()) &&
-                    (imageHref == null || imageHref.isEmpty())
+        String.isEmptyOrNull(title) &&
+                String.isEmptyOrNull(description) &&
+                String.isEmptyOrNull(imageHref)
 }

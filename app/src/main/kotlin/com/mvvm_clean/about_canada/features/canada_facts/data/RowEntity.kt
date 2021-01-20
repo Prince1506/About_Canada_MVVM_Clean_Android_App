@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
+// Part of canada fact list response
 @Keep
 @Parcelize
 data class RowEntity(

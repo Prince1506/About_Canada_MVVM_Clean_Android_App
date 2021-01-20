@@ -9,14 +9,15 @@ import java.math.BigInteger
 import java.util.*
 
 /*
-Interesting article about Parcelable and Kotlin:
-https://medium.com/@BladeCoder/reducing-parcelable-boilerplate-code-using-kotlin-741c3124a49a
+    Interesting article about Parcelable and Kotlin:
+    https://medium.com/@BladeCoder/reducing-parcelable-boilerplate-code-using-kotlin-741c3124a49a
 */
 interface KParcelable : Parcelable {
     override fun describeContents() = 0
     override fun writeToParcel(dest: Parcel, flags: Int)
 }
 
+// Inline Methods
 // Creator factory functions
 inline fun <reified T> parcelableCreator(crossinline create: (Parcel) -> T) =
         object : Parcelable.Creator<T> {
@@ -52,6 +53,7 @@ inline fun <T> Parcel.writeNullable(value: T?, writer: (T) -> Unit) {
         writeInt(0)
     }
 }
+//---
 
 fun Parcel.readDate() = readNullable { Date(readLong()) }
 

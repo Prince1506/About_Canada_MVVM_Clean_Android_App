@@ -6,7 +6,7 @@ import com.mvvm_clean.about_canada.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.about_canada.core.domain.functional.Either
 import com.mvvm_clean.about_canada.core.domain.functional.Either.Right
 import com.mvvm_clean.about_canada.core.data.NetworkHandler
-import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
+import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsResponseEntity
 import com.mvvm_clean.about_canada.features.canada_facts.data.RowEntity
 import com.mvvm_clean.about_canada.features.canada_facts.domain.api.AboutCanadaApiImpl
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
@@ -31,13 +31,13 @@ class AboutCanadaRepositoryTest : UnitTest() {
 
     @MockK private lateinit var networkHandler: NetworkHandler
     @MockK private lateinit var service: AboutCanadaApiImpl
-    private lateinit var canadaFactsEntity: CanadaFactsEntity
-    @MockK private lateinit var canadaFactsCall: Call<CanadaFactsEntity>
-    @MockK private lateinit var canadaFactsResponse: Response<CanadaFactsEntity>
+    private lateinit var canadaFactsResponseEntity: CanadaFactsResponseEntity
+    @MockK private lateinit var canadaFactsResponseCall: Call<CanadaFactsResponseEntity>
+    @MockK private lateinit var canadaFactsResponse: Response<CanadaFactsResponseEntity>
 
     @Before fun setUp() {
         networkRepository = AboutCanadaRepository.Network(networkHandler, service)
-        canadaFactsEntity = CanadaFactsEntity(
+        canadaFactsResponseEntity = CanadaFactsResponseEntity(
             TITLE_LBL,
             listOf(
                 RowEntity(
@@ -58,8 +58,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponse.body() } returns null
         every { canadaFactsResponse.isSuccessful } returns true
-        every { canadaFactsCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsCall
+        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsResponseCall
 
         // Act
         val canadaFacts= networkRepository.getFacts()
@@ -75,16 +75,16 @@ class AboutCanadaRepositoryTest : UnitTest() {
     @Test fun `should get canada facts list from service`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsResponse.body() } returns canadaFactsEntity
+        every { canadaFactsResponse.body() } returns canadaFactsResponseEntity
         every { canadaFactsResponse.isSuccessful } returns true
-        every { canadaFactsCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsCall
+        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsResponseCall
 
         // Act
         val canadaFacts = networkRepository.getFacts()
 
         // Verify
-        canadaFacts shouldEqual Right(canadaFactsEntity.toFacts())
+        canadaFacts shouldEqual Right(canadaFactsResponseEntity.toFacts())
         verify(exactly = 1) { service.getFacts() }
     }
 
@@ -112,8 +112,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponse.isSuccessful } returns false
-        every { canadaFactsCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsCall
+        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsResponseCall
 
         // Act
         val canadaFacts = networkRepository.getFacts()
@@ -130,8 +130,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     @Test fun `fact request should catch exceptions`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { canadaFactsCall.execute() } returns canadaFactsResponse
-        every { service.getFacts() } returns canadaFactsCall
+        every { canadaFactsResponseCall.execute() } returns canadaFactsResponse
+        every { service.getFacts() } returns canadaFactsResponseCall
 
         // Act
         val canadaFacts = networkRepository.getFacts()

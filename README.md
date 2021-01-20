@@ -2,6 +2,32 @@
 FOR RUNNING THE PROJECT
     Need to use JDK 9 for Robolectric unit test cases.
 
+Please note:
+1. I had removed items whose all data are null. So if I am getting fact image, description as well as title - "null"
+then am not showing that item on screen
+
+2. Changing orientation will preserve item position.
+
+3. I had use Robolectric library and this library has issue right now which
+could be fixed by using JaCoco as Code Coverage inside android studio.
+
+If you don't set it then one test will fail inside CanadaFactsViewModelTest only if you run
+test coverage for all modules combinedly if you just run test for all modules without
+coverage then it will not fail. This issue is logged inside Robolectric library and
+you can check it here
+https://github.com/robolectric/robolectric/issues/3023
+
+So if you want to test code coverage please check it separately. (One file at a time)
+
+
+4. Images are coming of improper size from server. To display them completely I am making them centre fit.
+Because of this if it's not coming of proper width then it will be shown as it's.
+
+The second option was to force it to be shown as rectangle doing so will need to crop the images maintaining the aspect ratio henceforth image detail will lost. Hence, I had not used this option.
+
+5. Few image URLs are coming null or are invalid when checked from browser. Hence for those I am showing placeholder image.
+
+
 ARCHITECTURE USED
 1. Kotlin with MVVM clean architecture, Lifecycle Extensions
 2. Use Cases, Navigator, Couroutine, Extensions, Dagger, Synthetic properties
@@ -43,34 +69,6 @@ Normally application always contains login screen. That's why I had created one 
 8. Check that when response comes null than UI should work properly. (App should not crash).
 
 9. Check that if there is any unhandled exception during API call than it's handled by try catch and app should not crash.
-
-
-
-
-
-
-Note: 
-1.
-I had use Robolectric library and this library has issue right now which
-could be fixed by using JaCoco as Code Coverage inside android studio.
-
-If you don't set it then one test will fail inside CanadaFactsViewModelTest only if you run
-test coverage for all modules combinedly if you just run test for all modules without
-coverage then it will not fail. This issue is logged inside Robolectric library and
-you can check it here
-https://github.com/robolectric/robolectric/issues/3023
-
-So if you want to test code coverage please check it separately. (One file at a time)
-
- 
-2. Images are coming of improper size from server. To display them completely I am making them centre fit.
-Because of this if it's not coming of proper width then it will be shown as it's.
-
-The second option was to force it to be shown as rectangle doing so will need to crop the images maintaining the aspect ratio henceforth image detail will lost. Hence, I had not used this option.
-
-3. 
-Few image URLs are coming null or are invalid when checked from browser. Hence for those I am showing placeholder image.
-
 
 
 Points followed

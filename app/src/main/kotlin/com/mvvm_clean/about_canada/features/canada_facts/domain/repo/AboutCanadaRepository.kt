@@ -8,7 +8,7 @@ import com.mvvm_clean.about_canada.core.domain.functional.Either
 import com.mvvm_clean.about_canada.core.domain.functional.Either.Left
 import com.mvvm_clean.about_canada.core.domain.functional.Either.Right
 import com.mvvm_clean.about_canada.core.data.NetworkHandler
-import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsEntity
+import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsResponseEntity
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
 import com.mvvm_clean.about_canada.features.canada_facts.domain.api.AboutCanadaApiImpl
 import retrofit2.Call
@@ -27,7 +27,7 @@ interface AboutCanadaRepository {
 
         override fun getFacts(): Either<Failure, CanadaFactsInfo> {
             return when (networkHandler.isNetworkAvailable()) {
-                true -> request(apiImpl.getFacts(), { it.toFacts()}, CanadaFactsEntity(String.empty(), emptyList()))
+                true -> request(apiImpl.getFacts(), { it.toFacts()}, CanadaFactsResponseEntity(String.empty(), emptyList()))
                 false -> Left(NetworkConnection)
             }
         }
