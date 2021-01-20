@@ -3,7 +3,7 @@ package com.mvvm_clean.about_canada.core.di
 import android.content.Context
 import com.mvvm_clean.about_canada.AboutCanadaApplication
 import com.mvvm_clean.about_canada.BuildConfig
-import com.mvvm_clean.about_canada.features.canada_facts.data.repo.AboutCanadaRepository
+import com.mvvm_clean.about_canada.features.canada_facts.domain.repo.AboutCanadaRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

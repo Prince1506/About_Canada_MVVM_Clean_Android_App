@@ -1,6 +1,7 @@
 package com.mvvm_clean.about_canada.features.login
 
 import com.mvvm_clean.about_canada.UnitTest
+import com.mvvm_clean.about_canada.features.login.domain.Authenticator
 import org.amshove.kluent.shouldBe
 import org.junit.Test
 

@@ -17,7 +17,7 @@
 
         <!--Activities-->
         <activity
-            android:name="com.mvvm_clean.about_canada.core.navigation.AboutCanadaActivity"
+            android:name="com.mvvm_clean.about_canada.core.presentation.navigation.AboutCanadaActivity"
             android:noHistory="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme.Translucent">
@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name="com.mvvm_clean.about_canada.features.canada_facts.view.activities.CanadaFactListActivity"
+            android:name="com.mvvm_clean.about_canada.features.canada_facts.presentation.ui.activities.CanadaFactListActivity"
             android:label="@string/canada_fact_screen_title">
         </activity>
 
