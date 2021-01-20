@@ -20,10 +20,10 @@ class CanadaFactListAdapter
 
     // Override Methods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(parent.inflate(R.layout.canada_fact_list_items))
+        ViewHolder(parent.inflate(R.layout.canada_fact_list_items))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
-            viewHolder.bind(collection[position])
+        viewHolder.bind(collection[position])
 
     override fun getItemCount() = collection.size
     //---
@@ -34,7 +34,10 @@ class CanadaFactListAdapter
             hideEmptyItems(factRowModel)
 
             var imageUrl = factRowModel.imageHrefNotNull
-            imageUrl = imageUrl?.replace(itemView.getString(R.string.http), itemView.getString(R.string.https))
+            imageUrl = imageUrl?.replace(
+                itemView.getString(R.string.http),
+                itemView.getString(R.string.https)
+            )
             imageUrl?.let { setDataToItem(it, factRowModel) }
         }
 
@@ -55,7 +58,8 @@ class CanadaFactListAdapter
                 itemView.visible()
                 itemView.setWithAndHeight(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT)
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
 
             }
         }

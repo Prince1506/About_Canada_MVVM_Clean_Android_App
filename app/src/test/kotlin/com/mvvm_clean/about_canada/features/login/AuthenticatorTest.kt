@@ -9,7 +9,8 @@ class AuthenticatorTest : UnitTest() {
 
     private val authenticator = Authenticator()
 
-    @Test fun `returns default value`() {
+    @Test
+    fun `returns default value`() {
         authenticator.userLoggedIn() shouldBe true
     }
 }

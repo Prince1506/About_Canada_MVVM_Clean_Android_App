@@ -10,12 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.mvvm_clean.about_canada.core.base.BaseActivity
 import com.mvvm_clean.about_canada.core.base.BaseFragment
-import kotlinx.android.synthetic.main.activity_layout.fragmentContainer
+import kotlinx.android.synthetic.main.activity_layout.*
 
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
-        beginTransaction().func().commit()
+    beginTransaction().func().commit()
 
-inline fun <reified T : ViewModel> Fragment.viewModel(factory: ViewModelProvider.Factory, body: T.() -> Unit): T {
+inline fun <reified T : ViewModel> Fragment.viewModel(
+    factory: ViewModelProvider.Factory,
+    body: T.() -> Unit
+): T {
     val vm = ViewModelProviders.of(this, factory)[T::class.java]
     vm.body()
     return vm

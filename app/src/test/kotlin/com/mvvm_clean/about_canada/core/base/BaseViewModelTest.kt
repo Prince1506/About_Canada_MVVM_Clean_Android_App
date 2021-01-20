@@ -9,7 +9,8 @@ import org.junit.Test
 
 class BaseViewModelTest : AndroidTest() {
 
-    @Test fun `should handle failure by updating live data`() {
+    @Test
+    fun `should handle failure by updating live data`() {
         val viewModel = MyViewModel()
 
         viewModel.handleError(NetworkConnection)

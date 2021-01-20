@@ -1,8 +1,8 @@
 package com.mvvm_clean.about_canada.core.presentation.navigation
 
 import android.content.Context
-import com.mvvm_clean.about_canada.features.login.domain.Authenticator
 import com.mvvm_clean.about_canada.features.canada_facts.presentation.ui.activities.CanadaFactListActivity
+import com.mvvm_clean.about_canada.features.login.domain.Authenticator
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,9 +22,9 @@ class Navigator
     }
 
     private fun showCanadaFacts(context: Context) =
-            context.startActivity(
-                    CanadaFactListActivity.callingIntent(context)
-            )
+        context.startActivity(
+            CanadaFactListActivity.callingIntent(context)
+        )
 
 }
 

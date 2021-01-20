@@ -10,7 +10,8 @@ class UseCaseTest : AndroidTest() {
 
     private val useCase = MyUseCase()
 
-    @Test fun `running use case should return 'Either' of use case type`() {
+    @Test
+    fun `running use case should return 'Either' of use case type`() {
         val params = MyParams(TYPE_PARAM)
         val result = runBlocking { useCase.run(params) }
 
