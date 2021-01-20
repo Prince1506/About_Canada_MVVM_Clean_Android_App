@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="fact_item_min_height">125dp</dimen>
+</resources>

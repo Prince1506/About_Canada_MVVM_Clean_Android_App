@@ -10,11 +10,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 class ApplicationModule(private val application: AboutCanadaApplication) {
-
+    var timeout = 5 * 10L
     @Provides @Singleton fun provideApplicationContext(): Context = application
 
     @Provides @Singleton fun provideRetrofit(): Retrofit {
@@ -27,10 +28,17 @@ class ApplicationModule(private val application: AboutCanadaApplication) {
 
     private fun createClient(): OkHttpClient {
         val okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
+
+
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
+
         }
+        okHttpClientBuilder.readTimeout(timeout, TimeUnit.SECONDS)
+        okHttpClientBuilder.connectTimeout(timeout, TimeUnit.SECONDS)
+        okHttpClientBuilder.writeTimeout(timeout, TimeUnit.SECONDS)
+
         return okHttpClientBuilder.build()
     }
 

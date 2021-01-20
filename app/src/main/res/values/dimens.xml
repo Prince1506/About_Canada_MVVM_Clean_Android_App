@@ -21,5 +21,8 @@
     <dimen name="text_10">10sp</dimen>
     <dimen name="text_12">12sp</dimen>
     <dimen name="text_18">18sp</dimen>
+    <dimen name="text_25">25sp</dimen>
+    <dimen name="iv_fact_item_arrow">30dp</dimen>
+    <dimen name="fact_item_min_height">100dp</dimen>
 
 </resources>
