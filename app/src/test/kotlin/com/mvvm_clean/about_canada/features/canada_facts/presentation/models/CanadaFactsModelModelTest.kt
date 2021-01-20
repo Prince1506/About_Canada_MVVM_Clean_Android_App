@@ -22,7 +22,7 @@ class CanadaFactsModelModelTest : AndroidTest() {
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
     private val mutableCanadaLiveData: MutableLiveData<CanadaFactsModel> = MutableLiveData()
-    private lateinit var factRowModels :List<FactRowModel>
+    private lateinit var factRowModels: List<FactRowModel>
 
     @MockK
     private lateinit var getCanadaFacts: GetCanadaFactsInfo
@@ -62,7 +62,8 @@ class CanadaFactsModelModelTest : AndroidTest() {
     /**
      * Whenever there is a change inside API response live data should get updated.
      */
-    @Test fun `loading facts should update live data`() {
+    @Test
+    fun `loading facts should update live data`() {
 
         // Assert
         coEvery { getCanadaFacts.run(any()) } returns Right(canadaFactsInfo)
@@ -85,16 +86,17 @@ class CanadaFactsModelModelTest : AndroidTest() {
     /**
      * Check that the response we got is passed to live data
      */
-    @Test fun `correct response is passed to handleFactList method`() {
+    @Test
+    fun `correct response is passed to handleFactList method`() {
 
         // Assert
 
 
         // Act
-       canadaFactsViewModel.handleFactList(canadaFactsInfo )
+        canadaFactsViewModel.handleFactList(canadaFactsInfo)
 
         // Verify
-        mutableCanadaLiveData.value  shouldEqual CanadaFactsModel(
+        mutableCanadaLiveData.value shouldEqual CanadaFactsModel(
             canadaFactsInfo.title,
             factRowModels
         )

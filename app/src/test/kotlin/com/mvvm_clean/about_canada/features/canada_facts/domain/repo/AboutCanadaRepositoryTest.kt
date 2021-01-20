@@ -1,15 +1,15 @@
 package com.mvvm_clean.about_canada.features.canada_facts.domain.repo
 
 import com.mvvm_clean.about_canada.UnitTest
+import com.mvvm_clean.about_canada.core.data.NetworkHandler
 import com.mvvm_clean.about_canada.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.about_canada.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.about_canada.core.domain.functional.Either
 import com.mvvm_clean.about_canada.core.domain.functional.Either.Right
-import com.mvvm_clean.about_canada.core.data.NetworkHandler
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsResponseEntity
 import com.mvvm_clean.about_canada.features.canada_facts.data.RowEntity
-import com.mvvm_clean.about_canada.features.canada_facts.domain.api.AboutCanadaApiImpl
 import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
+import com.mvvm_clean.about_canada.features.canada_facts.domain.api.AboutCanadaApiImpl
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -29,13 +29,18 @@ class AboutCanadaRepositoryTest : UnitTest() {
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
 
-    @MockK private lateinit var networkHandler: NetworkHandler
-    @MockK private lateinit var service: AboutCanadaApiImpl
+    @MockK
+    private lateinit var networkHandler: NetworkHandler
+    @MockK
+    private lateinit var service: AboutCanadaApiImpl
     private lateinit var canadaFactsResponseEntity: CanadaFactsResponseEntity
-    @MockK private lateinit var canadaFactsResponseCall: Call<CanadaFactsResponseEntity>
-    @MockK private lateinit var canadaFactsResponse: Response<CanadaFactsResponseEntity>
+    @MockK
+    private lateinit var canadaFactsResponseCall: Call<CanadaFactsResponseEntity>
+    @MockK
+    private lateinit var canadaFactsResponse: Response<CanadaFactsResponseEntity>
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         networkRepository = AboutCanadaRepository.Network(networkHandler, service)
         canadaFactsResponseEntity = CanadaFactsResponseEntity(
             TITLE_LBL,
@@ -53,7 +58,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     /**
      * If API succeeded and we get response as null. Then it should return empty object
      */
-    @Test fun `should return empty POJO by default`() {
+    @Test
+    fun `should return empty POJO by default`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponse.body() } returns null
@@ -62,7 +68,7 @@ class AboutCanadaRepositoryTest : UnitTest() {
         every { service.getFacts() } returns canadaFactsResponseCall
 
         // Act
-        val canadaFacts= networkRepository.getFacts()
+        val canadaFacts = networkRepository.getFacts()
 
         //Verify
         canadaFacts shouldEqual Right(CanadaFactsInfo.empty)
@@ -72,7 +78,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     /**
      * Case when API succeeded and we get proper response from API then same should be returned by our method too.
      */
-    @Test fun `should get canada facts list from service`() {
+    @Test
+    fun `should get canada facts list from service`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponse.body() } returns canadaFactsResponseEntity
@@ -91,7 +98,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     /**
      * Check if API fails due to no network app should show no internet message
      */
-    @Test fun `canada facts service should return network failure when no connection`() {
+    @Test
+    fun `canada facts service should return network failure when no connection`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns false
 
@@ -101,14 +109,17 @@ class AboutCanadaRepositoryTest : UnitTest() {
         // Verify
         canadaFacts shouldBeInstanceOf Either::class.java
         canadaFacts.isLeft shouldEqual true
-        canadaFacts.fold({ failure -> failure shouldBeInstanceOf NetworkConnection::class.java }, {})
+        canadaFacts.fold(
+            { failure -> failure shouldBeInstanceOf NetworkConnection::class.java },
+            {})
         verify { service wasNot Called }
     }
 
     /**
      * Check if API fails due to server error app should should show server error popup
      */
-    @Test fun `canada facts service should return server error if no successful response`() {
+    @Test
+    fun `canada facts service should return server error if no successful response`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponse.isSuccessful } returns false
@@ -127,7 +138,8 @@ class AboutCanadaRepositoryTest : UnitTest() {
     /**
      * Check if API fails due to any unhandled exception app should not get crash
      */
-    @Test fun `fact request should catch exceptions`() {
+    @Test
+    fun `fact request should catch exceptions`() {
         // Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { canadaFactsResponseCall.execute() } returns canadaFactsResponse

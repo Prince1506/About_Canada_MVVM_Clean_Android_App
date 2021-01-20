@@ -5,7 +5,6 @@ import com.mvvm_clean.about_canada.core.domain.functional.Either.Right
 import com.mvvm_clean.about_canada.core.domain.interactor.UseCase
 import com.mvvm_clean.about_canada.features.canada_facts.data.RowEntity
 import com.mvvm_clean.about_canada.features.canada_facts.domain.repo.AboutCanadaRepository
-import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsInfo
 import com.mvvm_clean.about_canada.features.canada_facts.domain.use_cases.GetCanadaFactsInfo
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -21,9 +20,11 @@ class GetCanadaFactsInfoTest : UnitTest() {
     private val TITLE_LBL = "title"
     private val DESCRIPTION_LBL = "description"
     private val HREF_LBL = "href"
-    @MockK private lateinit var aboutCanadaRepository: AboutCanadaRepository
+    @MockK
+    private lateinit var aboutCanadaRepository: AboutCanadaRepository
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
 
         getCanadaFactsInfo = GetCanadaFactsInfo(aboutCanadaRepository)
         canadaFactList = CanadaFactsInfo(
@@ -42,7 +43,8 @@ class GetCanadaFactsInfoTest : UnitTest() {
     /**
      * Check that API method is called once to get fact list
      */
-    @Test fun `should get data from repository`() {
+    @Test
+    fun `should get data from repository`() {
 
         // Act
         runBlocking { getCanadaFactsInfo.run(UseCase.None()) }

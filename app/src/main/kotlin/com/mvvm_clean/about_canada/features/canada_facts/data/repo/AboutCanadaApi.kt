@@ -12,5 +12,6 @@ internal interface AboutCanadaApi {
         private const val FACTS = "/s/2iodh4vg0eortkl/facts.json"
     }
 
-    @GET(FACTS) fun getFacts(): Call<CanadaFactsResponseEntity>
+    @GET(FACTS)
+    fun getFacts(): Call<CanadaFactsResponseEntity>
 }

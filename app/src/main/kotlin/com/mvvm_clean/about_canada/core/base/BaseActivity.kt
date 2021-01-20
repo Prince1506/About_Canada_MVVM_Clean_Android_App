@@ -28,11 +28,17 @@ abstract class BaseActivity : AppCompatActivity() {
     }
     //---
 
-    fun setActionTitle(title:String ){
+    fun setActionTitle(title: String) {
         toolbar_title.text = title
     }
+
     private fun addFragment(savedInstanceState: Bundle?) =
-            savedInstanceState ?: supportFragmentManager.inTransaction { add(R.id.fragmentContainer, fragment()) }
+        savedInstanceState ?: supportFragmentManager.inTransaction {
+            add(
+                R.id.fragmentContainer,
+                fragment()
+            )
+        }
 
     abstract fun fragment(): BaseFragment
 }

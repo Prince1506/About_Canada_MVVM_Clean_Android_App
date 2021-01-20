@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.mvvm_clean.about_canada.AboutCanadaApplication
 import com.mvvm_clean.about_canada.core.di.ApplicationComponent
 import com.mvvm_clean.about_canada.core.domain.extension.viewContainer
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_layout.*
 import javax.inject.Inject
 
@@ -25,14 +25,19 @@ abstract class BaseFragment : Fragment() {
         (activity?.application as AboutCanadaApplication).appComponent
     }
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
     abstract fun layoutId(): Int
 
     // Override Methods
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(layoutId(), container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
+        inflater.inflate(layoutId(), container, false)
 
     //---
 
@@ -44,7 +49,7 @@ abstract class BaseFragment : Fragment() {
     internal fun hideProgress() = progressStatus(View.GONE)
 
     private fun progressStatus(viewStatus: Int) =
-            with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
+        with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
     internal fun notifyWithAction(@StringRes message: Int) {
         val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT)

@@ -7,12 +7,12 @@ import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvvm_clean.about_canada.R
+import com.mvvm_clean.about_canada.core.base.BaseFragment
 import com.mvvm_clean.about_canada.core.domain.exception.Failure
 import com.mvvm_clean.about_canada.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.about_canada.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.about_canada.core.domain.extension.*
 import com.mvvm_clean.about_canada.core.presentation.navigation.Navigator
-import com.mvvm_clean.about_canada.core.base.BaseFragment
 import com.mvvm_clean.about_canada.features.canada_facts.data.CanadaFactsFailure
 import com.mvvm_clean.about_canada.features.canada_facts.presentation.models.CanadaFactsModel
 import com.mvvm_clean.about_canada.features.canada_facts.presentation.models.CanadaFactsViewModel

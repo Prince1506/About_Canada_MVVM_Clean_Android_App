@@ -16,14 +16,18 @@ import javax.inject.Singleton
 @Module
 class ApplicationModule(private val application: AboutCanadaApplication) {
     var timeout = 5 * 10L
-    @Provides @Singleton fun provideApplicationContext(): Context = application
+    @Provides
+    @Singleton
+    fun provideApplicationContext(): Context = application
 
-    @Provides @Singleton fun provideRetrofit(): Retrofit {
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .client(createClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(createClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     private fun createClient(): OkHttpClient {
@@ -31,7 +35,8 @@ class ApplicationModule(private val application: AboutCanadaApplication) {
 
 
         if (BuildConfig.DEBUG) {
-            val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            val loggingInterceptor =
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
 
         }
@@ -42,5 +47,8 @@ class ApplicationModule(private val application: AboutCanadaApplication) {
         return okHttpClientBuilder.build()
     }
 
-    @Provides @Singleton fun provideCanadaFactsRepository(dataSource: AboutCanadaRepository.Network): AboutCanadaRepository = dataSource
+    @Provides
+    @Singleton
+    fun provideCanadaFactsRepository(dataSource: AboutCanadaRepository.Network): AboutCanadaRepository =
+        dataSource
 }

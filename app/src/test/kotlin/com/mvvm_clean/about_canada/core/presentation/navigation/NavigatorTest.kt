@@ -14,13 +14,16 @@ class NavigatorTest : AndroidTest() {
 
     private lateinit var navigator: Navigator
 
-    @MockK private lateinit var authenticator: Authenticator
+    @MockK
+    private lateinit var authenticator: Authenticator
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         navigator = Navigator(authenticator)
     }
 
-    @Test fun `should forward user to canada Fact screen`() {
+    @Test
+    fun `should forward user to canada Fact screen`() {
         every { authenticator.userLoggedIn() } returns true
 
         navigator.showScreens(context())
