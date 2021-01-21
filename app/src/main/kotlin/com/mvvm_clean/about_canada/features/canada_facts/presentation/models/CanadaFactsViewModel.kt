@@ -15,6 +15,9 @@ import javax.inject.Inject
 class CanadaFactsViewModel @Inject constructor(private val getCanadaFactsInfo: GetCanadaFactsInfo) :
     BaseViewModel() {
 
+    init {
+        loadCanadaFacts()
+    }
     private val mutableCanadaLiveData: MutableLiveData<CanadaFactsModel> = MutableLiveData()
     val canadaFacts: LiveData<CanadaFactsModel> = mutableCanadaLiveData
 

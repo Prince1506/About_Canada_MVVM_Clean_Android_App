@@ -16,6 +16,7 @@
         android:id="@+id/pb_fact_list"
         android:layout_width="100dp"
         android:layout_height="99dp"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:indeterminateOnly="true"
         android:indeterminateTint="@color/black" />

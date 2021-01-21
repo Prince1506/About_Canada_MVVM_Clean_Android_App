@@ -51,8 +51,8 @@ class CanadaFactListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-        showProgress()
-        loadCanadaFactsList()
+//        showProgress()
+
     }
 
     /**
@@ -103,7 +103,9 @@ class CanadaFactListFragment : BaseFragment() {
 
     private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
 
-        canadaFactsModel?.title?.let { (activity as CanadaFactListActivity).setActionTitle(it) }
+        if (canadaFactsModel?.title != null)
+             (activity as CanadaFactListActivity).setActionTitle(canadaFactsModel?.title)
+
         canadaFactListAdapter.collection = canadaFactsModel?.factRowEntity!!
         srl_canada_fact_pullToRefresh.isRefreshing = false
         emptyView.gone()
@@ -124,7 +126,7 @@ class CanadaFactListFragment : BaseFragment() {
 
     private fun renderFailure(@StringRes message: Int) {
         rv_canadaFactList.gone()
-        (activity as CanadaFactListActivity).setActionTitle("")
+        (activity as CanadaFactListActivity).setActionTitle(getString(R.string.dash))
         emptyView.visible()
         tv_fact_list_api_message.visible()
         tv_fact_list_api_message.text = getString(message)
