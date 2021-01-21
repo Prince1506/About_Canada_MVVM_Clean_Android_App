@@ -52,11 +52,12 @@
         android:layout_width="190dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:scaleType="fitCenter"
-        android:src="@color/black"
-        app:layout_constraintTop_toTopOf="@+id/tv_list_item_description"
+        android:src="@drawable/list_item_place_holder"
         app:layout_constraintBottom_toBottomOf="@+id/tv_list_item_description"
-        app:layout_constraintEnd_toStartOf="@+id/iv_list_item_arrow" />
+        app:layout_constraintEnd_toStartOf="@+id/iv_list_item_arrow"
+        app:layout_constraintTop_toTopOf="@+id/tv_list_item_description" />
 
     <ImageView
         android:id="@+id/iv_list_item_arrow"
