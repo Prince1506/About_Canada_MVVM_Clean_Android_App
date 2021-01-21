@@ -6,9 +6,21 @@ Please note:
 1. I had removed items whose all data are null. So if I am getting fact image, description as well as title - "null"
 then am not showing that item on screen
 
-2. Changing orientation will preserve item position.
+2. One memory Leak randomly happens when we minimize application.
+Leak pattern: instance field android.app.Activity$1#this$0
+    Description: Android Q added a new android.app.IRequestFinishCallback$Stub class. android.app.Activity creates an
+    implementation of that interface as an anonymous subclass. That anonymous subclass has a reference to the activity.
+    Another process is keeping the android.app.IRequestFinishCallback$Stub reference alive long after Activity.
+    onDestroyed() has been called, causing the activity to leak
 
-3. I had use Robolectric library and this library has issue right now which
+This is known issue acknowledged by google and they will fix it in future releases. Please visit below link for more info
+In the below link see the description it is Memory leak pointed above and if you scroll down google team was able to produce it and they acknowledge
+that they will fix it in future release. I had also posted screenshot of acknowledgement inside screenshot folder (Inside attachment)
+https://issuetracker.google.com/issues/139738913
+
+3. Changing orientation will preserve item position.
+
+4. I had use Robolectric library and this library has issue right now which
 could be fixed by using JaCoco as Code Coverage inside android studio.
 
 If you don't set it then one test will fail inside CanadaFactsViewModelTest only if you run
