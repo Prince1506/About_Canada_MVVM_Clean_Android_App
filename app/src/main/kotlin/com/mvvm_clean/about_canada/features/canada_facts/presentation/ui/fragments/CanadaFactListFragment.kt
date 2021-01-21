@@ -111,7 +111,7 @@ class CanadaFactListFragment : BaseFragment() {
         emptyView.gone()
         tv_fact_list_api_message.gone()
         rv_canadaFactList.visible()
-        hideProgress()
+//        hideProgress()
     }
 
     private fun handleFailure(failure: Failure?) {
@@ -130,7 +130,7 @@ class CanadaFactListFragment : BaseFragment() {
         emptyView.visible()
         tv_fact_list_api_message.visible()
         tv_fact_list_api_message.text = getString(message)
-        hideProgress()
+//        hideProgress()
         notifyWithAction(message)
     }
 }
