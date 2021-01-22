@@ -72,7 +72,7 @@ class CanadaFactsModelModelTest : AndroidTest() {
         runBlocking { canadaFactsViewModel.loadCanadaFacts() }
 
         // Verify
-        canadaFactsViewModel.canadaFacts.observeForever {
+        canadaFactsViewModel.getCanadaFactLiveData().observeForever {
             it.let {
                 it.factRowEntity.size shouldEqualTo 1
                 it.factRowEntity[0].description shouldEqualTo DESCRIPTION_LBL

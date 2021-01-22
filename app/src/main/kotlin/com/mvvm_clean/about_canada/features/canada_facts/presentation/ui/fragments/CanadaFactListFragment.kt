@@ -50,7 +50,7 @@ class CanadaFactListFragment : BaseFragment() {
 
     private fun observeCanadaFactViewModel() {
         mCanadaFactsViewModel = viewModel(viewModelFactory) {
-            observe(canadaFacts, ::renderCanadaFactsList)
+            observe(getCanadaFactLiveData(), ::renderCanadaFactsList)
             failure(failure, ::handleFailure)
         }
         mCanadaFactsViewModel.getIsLoading()?.observe(this, object : Observer<Boolean?> {

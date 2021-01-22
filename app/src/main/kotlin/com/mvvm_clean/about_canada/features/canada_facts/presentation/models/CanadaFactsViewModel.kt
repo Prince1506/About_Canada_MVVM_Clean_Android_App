@@ -28,8 +28,9 @@ class CanadaFactsViewModel @Inject constructor(private val getCanadaFactsInfo: G
             loadCanadaFacts()
         }
     }
-
-    val canadaFacts: LiveData<CanadaFactsModel> = mutableCanadaLiveData
+    fun getCanadaFactLiveData(): LiveData<CanadaFactsModel> {
+        return mutableCanadaLiveData
+    }
 
     fun loadCanadaFacts() {
         isProgressLoading.value = true
