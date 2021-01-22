@@ -29,7 +29,7 @@
         <activity
             android:name="com.mvvm_clean.about_canada.features.canada_facts.presentation.ui.activities.CanadaFactListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/canada_fact_screen_title"></activity>
+            android:label="@string/canada_fact_screen_title"/>
 
     </application>
 

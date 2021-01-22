@@ -6,6 +6,7 @@ import com.mvvm_clean.about_canada.features.canada_facts.data.repo.CanadaFactsIn
 import com.mvvm_clean.about_canada.features.canada_facts.domain.repo.AboutCanadaRepository
 import javax.inject.Inject
 
+
 class GetCanadaFactsInfo
 @Inject constructor(private val aboutCanadaRepository: AboutCanadaRepository) :
     UseCase<CanadaFactsInfo, None>() {

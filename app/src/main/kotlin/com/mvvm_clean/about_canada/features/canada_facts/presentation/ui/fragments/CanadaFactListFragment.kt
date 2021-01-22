@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.view.View
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mvvm_clean.about_canada.R
 import com.mvvm_clean.about_canada.core.base.BaseFragment
@@ -24,6 +25,7 @@ import javax.inject.Inject
 // Fragment responsible to show fact list
 class CanadaFactListFragment : BaseFragment() {
 
+    private var isSwipeLoading = false
     private val BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout"
     private lateinit var mCanadaFactsViewModel: CanadaFactsViewModel
 
@@ -40,19 +42,32 @@ class CanadaFactListFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
+        observeCanadaFactViewModel()
+
+        // retain this fragment when activity is re-initialized
+        retainInstance = true;
+    }
+
+    private fun observeCanadaFactViewModel() {
         mCanadaFactsViewModel = viewModel(viewModelFactory) {
             observe(canadaFacts, ::renderCanadaFactsList)
             failure(failure, ::handleFailure)
         }
-        // retain this fragment when activity is re-initialized
-        setRetainInstance(true);
+        mCanadaFactsViewModel.getIsLoading()?.observe(this, object : Observer<Boolean?> {
+            override fun onChanged(aBoolean: Boolean?) {
+                if (aBoolean!! && !isSwipeLoading) {
+                    showProgress()
+                } else {
+                    hideProgress()
+                }
+            }
+        })
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-//        showProgress()
-
     }
 
     /**
@@ -92,6 +107,8 @@ class CanadaFactListFragment : BaseFragment() {
         rv_canadaFactList.adapter = canadaFactListAdapter
 
         srl_canada_fact_pullToRefresh.setOnRefreshListener {
+            isSwipeLoading = true
+            srl_canada_fact_pullToRefresh.isRefreshing = true
             loadCanadaFactsList()
         }
 
@@ -104,10 +121,11 @@ class CanadaFactListFragment : BaseFragment() {
     private fun renderCanadaFactsList(canadaFactsModel: CanadaFactsModel?) {
 
         if (canadaFactsModel?.title != null)
-             (activity as CanadaFactListActivity).setActionTitle(canadaFactsModel?.title)
+            (activity as CanadaFactListActivity).setActionTitle(canadaFactsModel?.title)
 
         canadaFactListAdapter.collection = canadaFactsModel?.factRowEntity!!
         srl_canada_fact_pullToRefresh.isRefreshing = false
+        isSwipeLoading = false
         emptyView.gone()
         tv_fact_list_api_message.gone()
         rv_canadaFactList.visible()
@@ -122,6 +140,7 @@ class CanadaFactListFragment : BaseFragment() {
             else -> renderFailure(R.string.failure_server_error)
         }
         srl_canada_fact_pullToRefresh.isRefreshing = false
+        isSwipeLoading = false
     }
 
     private fun renderFailure(@StringRes message: Int) {
